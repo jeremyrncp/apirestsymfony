@@ -1,0 +1,5 @@
+App\Entity\PhoneCategory:
+  neuf:
+    name: 'Neuf'
+  recondionne:
+    name: 'Reconditionné'

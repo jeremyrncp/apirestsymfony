@@ -1,0 +1,9 @@
+App\Entity\User:
+  user_(1..20):
+    firstname: 'Martin'
+    lastname: 'Durand'
+    address: 'Route du Parc Montsouris'
+    postalCode: '75019'
+    city: 'Paris'
+    dateCreate: <(new DateTime("2018-12-07"))>
+    businessCustomer: '@business_customer_test'
