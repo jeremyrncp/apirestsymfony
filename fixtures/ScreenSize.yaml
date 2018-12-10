@@ -1,0 +1,7 @@
+App\Entity\ScreenSize:
+  584pouces:
+    size: 5.84
+    unit: 'pouces'
+  5pouces:
+    size: 5
+    unit: 'pouces'

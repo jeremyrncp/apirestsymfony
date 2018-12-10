@@ -1,0 +1,7 @@
+App\Entity\BusinessCustomer:
+  business_customer_test:
+    name: 'Mobile invest'
+    address: 'Rue de Rivoli'
+    postalCode: '75017'
+    city: 'Paris'
+    authKey: '0cec69660ac492de24b256716999d4da0aad92b3'

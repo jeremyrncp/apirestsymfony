@@ -1,0 +1,16 @@
+App\Entity\Phone:
+  huawei_p20_lite_(1..20):
+    name: 'Huawei P20 Lite'
+    price: 250
+    memory: 64
+    warranty: 2
+    description: 'Double capteur de photo de 16MP + 2MP, pour des photos ébouissantes\nEcran FullView FHD+ de 5.84 pouces, pour des couleurs vives et des contrastes élevés\nProcesseur octo-coeur Kirin 659, pour un téléphone qui reste rapide\nBatterie de 3000mAh, pour une autonomie plus longue et une recharge plus rapide\nReconnaissance faciale rapide en temps réel, pour un déverouillage aisé'
+    screenSize: '@584pouces'
+    manufacturer: '@huawei'
+    category: '@neuf'
+    os: '@android'
+    connexion:
+      - '@wifi'
+      - '@3g'
+      - '@4g'
+
