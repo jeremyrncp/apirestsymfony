@@ -6,12 +6,15 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "jms/serializer-bundle": "^2.4",
+        "lexik/jwt-authentication-bundle": "^2.6",
         "symfony/console": "4.2.*",
         "symfony/dotenv": "4.2.*",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "4.2.*",
         "symfony/maker-bundle": "^1.9",
         "symfony/orm-pack": "^1.0",
+        "symfony/var-dumper": "4.2.*",
+        "symfony/web-server-bundle": "4.2.*",
         "symfony/yaml": "4.2.*"
     },
     "config": {
