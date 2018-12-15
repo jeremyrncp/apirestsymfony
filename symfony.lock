@@ -101,8 +101,23 @@
             "ref": "fe60ce509ef04a3f40da96e3979bc8d9b13b2372"
         }
     },
+    "lcobucci/jwt": {
+        "version": "3.2.5"
+    },
+    "lexik/jwt-authentication-bundle": {
+        "version": "2.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "509b1542f3180a1cfe248ade8b7bf5092c2d4127"
+        }
+    },
     "myclabs/deep-copy": {
         "version": "1.8.1"
+    },
+    "namshi/jose": {
+        "version": "7.2.3"
     },
     "nelmio/alice": {
         "version": "3.2",
@@ -112,6 +127,9 @@
             "version": "3.2",
             "ref": "0b9900ece737bec7752e4155c0164639dd9b0cb0"
         }
+    },
+    "nikic/php-parser": {
+        "version": "v4.1.0"
     },
     "ocramius/package-versions": {
         "version": "1.3.0"
@@ -215,11 +233,26 @@
     "symfony/inflector": {
         "version": "v4.2.1"
     },
+    "symfony/maker-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
+        }
+    },
     "symfony/orm-pack": {
         "version": "v1.0.5"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.10.0"
+    },
+    "symfony/polyfill-php72": {
+        "version": "v1.10.0"
+    },
+    "symfony/process": {
+        "version": "v4.2.1"
     },
     "symfony/property-access": {
         "version": "v4.2.1"
@@ -233,8 +266,41 @@
             "ref": "5374e24d508ba8fd6ba9eb15170255fdb778316a"
         }
     },
+    "symfony/security-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "f8a63faa0d9521526499c0a8f403c9964ecb0527"
+        }
+    },
+    "symfony/security-core": {
+        "version": "v4.2.1"
+    },
+    "symfony/security-csrf": {
+        "version": "v4.2.1"
+    },
+    "symfony/security-guard": {
+        "version": "v4.2.1"
+    },
+    "symfony/security-http": {
+        "version": "v4.2.1"
+    },
+    "symfony/var-dumper": {
+        "version": "v4.2.1"
+    },
     "symfony/var-exporter": {
         "version": "v4.2.1"
+    },
+    "symfony/web-server-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
+        }
     },
     "symfony/yaml": {
         "version": "v4.2.1"
