@@ -5,12 +5,24 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BusinessCustomerRepository")
  */
-class BusinessCustomer
+class BusinessCustomer implements UserInterface
 {
+    const ROLE_CUSTOMER = "ROLE_CUSTOMER";
+
+    /**
+     * To validate supported roles
+     *
+     * @var array
+     */
+    static public $ROLES_SUPPORTED = array(
+        self::ROLE_CUSTOMER => self::ROLE_CUSTOMER,
+    );
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -39,9 +51,14 @@ class BusinessCustomer
     private $city;
 
     /**
-     * @ORM\Column(type="string", length=40)
+     * @ORM\Column(type="string", length=200)
      */
-    private $authKey;
+    private $username;
+
+    /**
+     * @ORM\Column(type="string", length=60)
+     */
+    private $password;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="BusinessCustomer")
@@ -106,18 +123,6 @@ class BusinessCustomer
         return $this;
     }
 
-    public function getAuthKey(): ?string
-    {
-        return $this->authKey;
-    }
-
-    public function setAuthKey(string $authKey): self
-    {
-        $this->authKey = $authKey;
-
-        return $this;
-    }
-
     /**
      * @return Collection|User[]
      */
@@ -147,5 +152,30 @@ class BusinessCustomer
         }
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        return [self::ROLE_CUSTOMER];
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
     }
 }

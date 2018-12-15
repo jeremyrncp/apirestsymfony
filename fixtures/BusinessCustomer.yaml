@@ -4,4 +4,5 @@ App\Entity\BusinessCustomer:
     address: 'Rue de Rivoli'
     postalCode: '75017'
     city: 'Paris'
-    authKey: '0cec69660ac492de24b256716999d4da0aad92b3'
+    username: 'mobile-invest'
+    password: '$2y$10$Yg2Td3XPm1E0l9c1pjcZN.qBr0sGjUfCvrDMsse52kahXGw/E/V.a'
