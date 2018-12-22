@@ -3,6 +3,10 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Asserts;
+use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -17,14 +21,32 @@ class User
     private $id;
 
     /**
+     * @Asserts\NotBlank(message="First name must be provided")
+     * @Asserts\Length(max=100, maxMessage="First name must have 100 characters in maximum")
      * @ORM\Column(type="string", length=100)
      */
     private $firstname;
 
     /**
+     * @Asserts\NotBlank(message="Last name must be provided")
+     * @Asserts\Length(max=100, maxMessage="Last name must have 100 characters in maximum")
      * @ORM\Column(type="string", length=100)
      */
-    private $lastName;
+    private $lastname;
+
+    /**
+     * @Asserts\NotBlank(message="Email must be provided")
+     * @Asserts\Email(message="Email must be valid")
+     * @ORM\Column(type="string", length=200, unique=true)
+     */
+    private $email;
+
+    /**
+     * @Asserts\NotBlank(message="Phone number must be provided")
+     * @AssertPhoneNumber(message="Phone number must be valid")
+     * @ORM\Column(type="string", length=35, unique=true)
+     */
+    private $phonenumber;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -34,7 +56,7 @@ class User
     /**
      * @ORM\Column(type="string", length=10)
      */
-    private $postalCode;
+    private $postalcode;
 
     /**
      * @ORM\Column(type="string", length=200)
@@ -42,13 +64,18 @@ class User
     private $city;
 
     /**
+     * @var \DateTime
      * @ORM\Column(type="datetime")
+     *
+     * @Serializer\Exclude
      */
     private $dateCreate;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\BusinessCustomer", inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Serializer\Exclude
      */
     private $BusinessCustomer;
 
@@ -57,12 +84,44 @@ class User
         return $this->id;
     }
 
-    public function getFirstname(): ?string
+    /**
+     * @return string
+     */
+    public function getPhoneNumber(): string
+    {
+        return $this->phonenumber;
+    }
+
+    /**
+     * @param mixed $phonenumber
+     */
+    public function setPhoneNumber($phonenumber): void
+    {
+        $this->phonenumber = $phonenumber;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email): void
+    {
+        $this->email = $email;
+    }
+
+    public function getFirstName(): ?string
     {
         return $this->firstname;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setFirstName(string $firstname): self
     {
         $this->firstname = $firstname;
 
@@ -71,7 +130,7 @@ class User
 
     public function getLastName(): ?string
     {
-        return $this->lastName;
+        return $this->lastname;
     }
 
     public function setLastName(string $lastName): self
@@ -95,12 +154,12 @@ class User
 
     public function getPostalCode(): ?string
     {
-        return $this->postalCode;
+        return $this->postalcode;
     }
 
-    public function setPostalCode(string $postalCode): self
+    public function setPostalCode(string $postalcode): self
     {
-        $this->postalCode = $postalCode;
+        $this->postalcode = $postalcode;
 
         return $this;
     }
@@ -117,9 +176,9 @@ class User
         return $this;
     }
 
-    public function getDateCreate(): ?\DateTimeInterface
+    public function getDateCreate(): string
     {
-        return $this->dateCreate;
+        return $this->dateCreate->format('Y-m-d H:i:s');
     }
 
     public function setDateCreate(\DateTimeInterface $dateCreate): self
