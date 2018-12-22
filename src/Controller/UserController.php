@@ -44,6 +44,8 @@ class UserController extends ApiController
      * @param EntityManagerInterface $entityManager
      * @param SerializerInterface $serializer
      */
+    const NOT_AUTHORIZED = 'You haven\'t authorized to visualise this ressource';
+
     public function __construct(ValidatorInterface $validator, EntityManagerInterface $entityManager, SerializerInterface $serializer)
     {
         $this->validator = $validator;
@@ -97,15 +99,11 @@ class UserController extends ApiController
      * @throws \App\Exception\UnsupportedTypeException
      **/
 
-    public function deleteUser(Request $request, $id)
+    public function deleteUser(Request $request, int $id)
     {
         $this->validAcceptTypeAndFetchApiFormat($request);
 
-        $user = $this->em->getRepository(User::class)->find($id);
-
-        if (null === $user) {
-            throw new NotFoundException('User not found', HttpCodeEnum::HTTP_NOT_FOUND);
-        }
+        $user = $this->fetchUser($id);
 
         try {
             $this->denyAccessUnlessGranted(UserVoter::DELETE, $user);
@@ -117,7 +115,52 @@ class UserController extends ApiController
                 HttpCodeEnum::HTTP_NO_CONTENT
             );
         } catch (AccessDeniedException $e) {
-            throw new ForbiddenException('You haven\'t authorized to visualise this ressource', HttpCodeEnum::HTTP_FORBIDDEN);
+            throw new ForbiddenException(self::NOT_AUTHORIZED, HttpCodeEnum::HTTP_FORBIDDEN);
         }
+    }
+
+    /**
+     * @Route("/api/user/{id}", requirements={"id"="\d+"}, methods={"GET"}, name="view_user")
+     *
+     * @param Request $request
+     * @param int $id
+     * @return Response
+     *
+     * @throws \App\Exception\ForbiddenException
+     * @throws \App\Exception\NotFoundException
+     * @throws \App\Exception\UndefinedHeaderException
+     * @throws \App\Exception\UnsupportedTypeException
+     **/
+    public function viewUser(Request $request, int $id)
+    {
+        $format = $this->validAcceptTypeAndFetchApiFormat($request);
+
+        $user = $this->fetchUser($id);
+
+        try {
+            $this->denyAccessUnlessGranted(UserVoter::VIEW, $user);
+
+            return new Response(
+                $this->serializer->serialize($user, $format),
+                HttpCodeEnum::HTTP_OK
+            );
+        } catch (AccessDeniedException $e) {
+            throw new ForbiddenException(self::NOT_AUTHORIZED, HttpCodeEnum::HTTP_FORBIDDEN);
+        }
+    }
+
+    /**
+     * @param int $id
+     * @return User|null|object
+     * @throws NotFoundException
+     */
+    private function fetchUser(int $id)
+    {
+        $user = $this->em->getRepository(User::class)->find($id);
+
+        if (null === $user) {
+            throw new NotFoundException('User not found', HttpCodeEnum::HTTP_NOT_FOUND);
+        }
+        return $user;
     }
 }
