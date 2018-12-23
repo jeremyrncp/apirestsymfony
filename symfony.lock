@@ -233,6 +233,9 @@
     "symfony/event-dispatcher": {
         "version": "v4.2.1"
     },
+    "symfony/expression-language": {
+        "version": "v4.2.1"
+    },
     "symfony/filesystem": {
         "version": "v4.2.1"
     },
@@ -355,6 +358,18 @@
             "version": "1.0",
             "ref": "fe5a50faf580eb58f08ada2abe8afbd2d4941e05"
         }
+    },
+    "twig/twig": {
+        "version": "v2.6.0"
+    },
+    "white-october/pagerfanta-bundle": {
+        "version": "v1.2.2"
+    },
+    "willdurand/hateoas": {
+        "version": "2.12.0"
+    },
+    "willdurand/hateoas-bundle": {
+        "version": "1.4.0"
     },
     "zendframework/zend-code": {
         "version": "3.3.1"

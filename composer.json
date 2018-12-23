@@ -22,7 +22,8 @@
         "symfony/var-dumper": "4.2.*",
         "symfony/web-server-bundle": "4.2.*",
         "symfony/yaml": "4.2.*",
-        "white-october/pagerfanta-bundle": "^1.2"
+        "white-october/pagerfanta-bundle": "^1.2",
+        "willdurand/hateoas-bundle": "^1.4"
     },
     "config": {
         "preferred-install": {
