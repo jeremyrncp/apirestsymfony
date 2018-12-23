@@ -6,10 +6,26 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Asserts;
 use Misd\PhoneNumberBundle\Validator\Constraints\PhoneNumber as AssertPhoneNumber;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ *
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "view_delete_user",
+ *          parameters = { "id" = "expr(object.getId())" }
+ *      ),
+ * )
+ * @Hateoas\Relation(
+ *      "delete",
+ *      href = @Hateoas\Route(
+ *          "view_delete_user",
+ *          parameters = { "id" = "expr(object.getId())" }
+ *      ),
+ * )
  */
 class User
 {
