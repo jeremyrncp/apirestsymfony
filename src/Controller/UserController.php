@@ -15,7 +15,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -23,20 +22,22 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class UserController extends ApiController
 {
+    const NOT_AUTHORIZED = 'You haven\'t authorized to visualise this ressource';
+
     /**
      * @var ValidatorInterface
      */
-    private $validator;
+    protected $validator;
 
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    protected $em;
 
     /**
      * @var SerializerInterface
      */
-    private $serializer;
+    protected $serializer;
 
     /**
      * UserController constructor.
@@ -44,7 +45,6 @@ class UserController extends ApiController
      * @param EntityManagerInterface $entityManager
      * @param SerializerInterface $serializer
      */
-    const NOT_AUTHORIZED = 'You haven\'t authorized to visualise this ressource';
 
     public function __construct(ValidatorInterface $validator, EntityManagerInterface $entityManager, SerializerInterface $serializer)
     {
@@ -53,10 +53,7 @@ class UserController extends ApiController
         $this->serializer = $serializer;
     }
 
-
     /**
-     * @Route("/api/user", methods={"POST"}, name="create_user")
-     *
      * @param Request $request
      * @return Response
      * @throws \App\Exception\BadRequestException
@@ -98,7 +95,6 @@ class UserController extends ApiController
      * @throws \App\Exception\UndefinedHeaderException
      * @throws \App\Exception\UnsupportedTypeException
      **/
-
     public function deleteUser(Request $request, int $id)
     {
         $this->validAcceptTypeAndFetchApiFormat($request);
@@ -120,41 +116,11 @@ class UserController extends ApiController
     }
 
     /**
-     * @Route("/api/user/{id}", requirements={"id"="\d+"}, methods={"GET"}, name="view_user")
-     *
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     *
-     * @throws \App\Exception\ForbiddenException
-     * @throws \App\Exception\NotFoundException
-     * @throws \App\Exception\UndefinedHeaderException
-     * @throws \App\Exception\UnsupportedTypeException
-     **/
-    public function viewUser(Request $request, int $id)
-    {
-        $format = $this->validAcceptTypeAndFetchApiFormat($request);
-
-        $user = $this->fetchUser($id);
-
-        try {
-            $this->denyAccessUnlessGranted(UserVoter::VIEW, $user);
-
-            return new Response(
-                $this->serializer->serialize($user, $format),
-                HttpCodeEnum::HTTP_OK
-            );
-        } catch (AccessDeniedException $e) {
-            throw new ForbiddenException(self::NOT_AUTHORIZED, HttpCodeEnum::HTTP_FORBIDDEN);
-        }
-    }
-
-    /**
      * @param int $id
      * @return User|null|object
      * @throws NotFoundException
      */
-    private function fetchUser(int $id)
+    protected function fetchUser(int $id)
     {
         $user = $this->em->getRepository(User::class)->find($id);
 
