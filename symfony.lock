@@ -68,6 +68,12 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+<<<<<<< HEAD
+=======
+    "facebook/webdriver": {
+        "version": "1.6.0"
+    },
+>>>>>>> chore(composer) add pager fanta
     "fzaninotto/faker": {
         "version": "v1.8.0"
     },
@@ -152,6 +158,12 @@
     "ocramius/proxy-manager": {
         "version": "2.1.1"
     },
+<<<<<<< HEAD
+=======
+    "pagerfanta/pagerfanta": {
+        "version": "v2.0.1"
+    },
+>>>>>>> chore(composer) add pager fanta
     "phpcollection/phpcollection": {
         "version": "0.5.0"
     },
@@ -182,6 +194,12 @@
     "sebastian/recursion-context": {
         "version": "3.0.0"
     },
+<<<<<<< HEAD
+=======
+    "symfony/browser-kit": {
+        "version": "v4.2.1"
+    },
+>>>>>>> chore(composer) add pager fanta
     "symfony/cache": {
         "version": "v4.2.1"
     },
