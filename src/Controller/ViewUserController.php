@@ -34,16 +34,16 @@ class ViewUserController extends UserController
     private $router;
 
     /**
-     * UserController constructor.
+     * ViewUserController constructor.
      * @param ValidatorInterface $validator
      * @param EntityManagerInterface $entityManager
      * @param SerializerInterface $serializer
+     * @param RouterInterface $router
      */
-
     public function __construct(ValidatorInterface $validator, EntityManagerInterface $entityManager, SerializerInterface $serializer, RouterInterface $router)
     {
         $this->router = $router;
-        parent::__construct($validator, $entityManager, $serializer);
+        parent::__construct($validator, $entityManager, $serializer, $router);
     }
 
 
