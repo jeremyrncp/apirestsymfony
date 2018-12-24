@@ -6,6 +6,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Enum\HttpCodeEnum;
 use App\Exception\ForbiddenException;
 use App\Security\UserVoter;
@@ -26,7 +27,6 @@ class ViewUserController extends UserController
 {
 
     const USERS_PER_PAGE  = 20;
-    const DEFAULT_OFFSET = 0;
 
     /**
      * @var RouterInterface
@@ -83,11 +83,14 @@ class ViewUserController extends UserController
     {
         $format = $this->validAcceptTypeAndFetchApiFormat($request);
 
-        $pager = $this->getPagerWithParamRequest($request);
+        $queryBuilder = $this->em->createQueryBuilder();
+        $queryBuilder->select('u')->from(User::class, 'u');
+
+        $pager = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
+        $pager = $this->getPagerWithParamRequest($request, $pager, self::USERS_PER_PAGE);
 
         $response = new Response();
-
-        $links = $this->addLinksInHeader($request, $pager, $pagination);
+        $links = $this->addLinksInHeader($pager, $pagination, $this->getOffset($request), $this->router->generate('view_delete_user'));
 
         $users = iterator_to_array($pager->getCurrentPageResults());
 
@@ -98,48 +101,6 @@ class ViewUserController extends UserController
         return $response;
     }
 
-    /**
-     * @param Request $request
-     * @param Pagerfanta $pager
-     * @param Pagination $pagination
-     *
-     * @return string
-     */
-    private function addLinksInHeader(Request $request, Pagerfanta $pager, Pagination $pagination): string
-    {
-        $offset = $this->getOffset($request);
-
-        $linkList = $pagination->getPagination($offset, self::USERS_PER_PAGE, $pager->getNbResults());
-
-        $links = '';
-
-        foreach ($linkList as $nameLink => $linkOffset) {
-            $links .= '<' . $this->router->generate('view_delete_user') . $linkOffset . '>; rel="' . $nameLink . '",';
-        }
-
-        return $links;
-    }
-
-
-    /**
-     * @param Request $request
-     * @return Pagerfanta
-     */
-    private function getPagerWithParamRequest(Request $request)
-    {
-        $offset = $this->getOffset($request);
-
-        $queryBuilder = $this->em->createQueryBuilder();
-        $queryBuilder->select('u')->from('App\Entity\User', 'u');
-
-        $pager = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
-
-        $currentPage = (int) round(ceil($offset + 1) / self::USERS_PER_PAGE);
-        $pager->setCurrentPage($currentPage + 1);
-        $pager->setMaxPerPage(self::USERS_PER_PAGE);
-
-        return $pager;
-    }
 
     /**
      * @Route("/api/user/{id}", requirements={"id"="\d+"}, methods={"GET"}, name="view_user")
@@ -169,19 +130,5 @@ class ViewUserController extends UserController
         } catch (AccessDeniedException $e) {
             throw new ForbiddenException(self::NOT_AUTHORIZED, HttpCodeEnum::HTTP_FORBIDDEN);
         }
-    }
-
-    /**
-     * @param Request $request
-     * @return int|mixed
-     */
-    private function getOffset(Request $request)
-    {
-        if ($request->query->has('offset') && is_numeric($request->query->get('offset'))) {
-            $offset = $request->query->get('offset');
-        } else {
-            $offset = self::DEFAULT_OFFSET;
-        }
-        return $offset;
     }
 }
