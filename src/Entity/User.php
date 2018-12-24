@@ -15,14 +15,14 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @Hateoas\Relation(
  *      "self",
  *      href = @Hateoas\Route(
- *          "view_delete_user",
+ *          "view_user",
  *          parameters = { "id" = "expr(object.getId())" }
  *      ),
  * )
  * @Hateoas\Relation(
  *      "delete",
  *      href = @Hateoas\Route(
- *          "view_delete_user",
+ *          "view_user",
  *          parameters = { "id" = "expr(object.getId())" }
  *      ),
  * )

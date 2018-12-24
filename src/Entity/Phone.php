@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PhoneRepository")
@@ -40,30 +42,49 @@ class Phone
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ScreenSize", inversedBy="phones")
      * @ORM\JoinColumn(nullable=false)
+     *
+     *
+     * @Serializer\SerializedName("screensize")
+     * @Serializer\Type("string")
      */
     private $ScreenSize;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Manufacturer", inversedBy="phones")
      * @ORM\JoinColumn(nullable=false)
+     *
+     *
+     * @Serializer\SerializedName("manufacturer")
+     * @Serializer\Type("string")
      */
     private $Manufacturer;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PhoneCategory", inversedBy="phones")
      * @ORM\JoinColumn(nullable=false)
+     *
+     *
+     * @Serializer\SerializedName("category")
+     * @Serializer\Type("string")
      */
     private $Category;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Os", inversedBy="phones")
      * @ORM\JoinColumn(nullable=false)
+     *
+     *
+     * @Serializer\SerializedName("os")
+     * @Serializer\Type("string")
      */
     private $Os;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Connexion")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Serializer\SerializedName("connexions")
+     * @Serializer\Type("array<string>")
      */
     private $Connexions;
 
