@@ -16,6 +16,7 @@ use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -39,18 +40,26 @@ class UserController extends ApiController
      */
     protected $serializer;
 
+
+    /**
+     * @var RouterInterface
+     */
+    protected $router;
+
+
     /**
      * UserController constructor.
      * @param ValidatorInterface $validator
      * @param EntityManagerInterface $entityManager
      * @param SerializerInterface $serializer
+     * @param RouterInterface $router
      */
-
-    public function __construct(ValidatorInterface $validator, EntityManagerInterface $entityManager, SerializerInterface $serializer)
+    public function __construct(ValidatorInterface $validator, EntityManagerInterface $entityManager, SerializerInterface $serializer, RouterInterface $router)
     {
         $this->validator = $validator;
         $this->em = $entityManager;
         $this->serializer = $serializer;
+        $this->router = $router;
     }
 
     /**
@@ -76,10 +85,9 @@ class UserController extends ApiController
         $this->em->persist($user);
         $this->em->flush();
 
-        return new Response(
-            $this->serializer->serialize($user, $accept),
-            HttpCodeEnum::HTTP_CREATED
-        );
+        $response = $this->getResponseToCreateUser($user, $accept);
+
+        return $response;
     }
 
     /**
@@ -128,5 +136,19 @@ class UserController extends ApiController
             throw new NotFoundException('User not found', HttpCodeEnum::HTTP_NOT_FOUND);
         }
         return $user;
+    }
+
+    /**
+     * @param $user
+     * @param $accept
+     * @return Response
+     */
+    private function getResponseToCreateUser($user, $accept): Response
+    {
+        $response = new Response;
+        $response->headers->set('Location', $this->router->generate('view_user', ['id' => $user->getId()]));
+        $response->setStatusCode(HttpCodeEnum::HTTP_CREATED);
+        $response->setContent($this->serializer->serialize($user, $accept));
+        return $response;
     }
 }
