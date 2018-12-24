@@ -97,4 +97,9 @@ class ScreenSize
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->size . " " . $this->unit;
+    }
 }
