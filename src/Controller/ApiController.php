@@ -11,6 +11,8 @@ use App\Exception\BadRequestException;
 use App\Exception\UndefinedHeaderException;
 use App\Exception\UnprocessableEntityException;
 use App\Exception\UnsupportedTypeException;
+use App\Utils\Api\Pagination;
+use Pagerfanta\Pagerfanta;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +27,52 @@ class ApiController extends AbstractController
     public const ACCEPT_MIME_TO_FORMAT = [
         "application/json" => "json"
     ];
+    public const ENTITY_PER_PAGE = 10;
+    public const DEFAULT_OFFSET = 0;
 
+
+    /**
+     * @param Pagerfanta $pager
+     * @param Pagination $pagination
+     * @param int $offset
+     * @param string $entityPath
+     * @return string
+     */
+    protected function addLinksInHeader(
+        Pagerfanta $pager,
+        Pagination $pagination,
+        int $offset,
+        string $entityPath
+    ): string
+    {
+        $linkList = $pagination->getPagination($offset, $pager->getMaxPerPage(), $pager->getNbResults());
+
+        $links = '';
+
+        foreach ($linkList as $nameLink => $linkOffset) {
+            $links .= '<' . $entityPath . $linkOffset . '>; rel="' . $nameLink . '",';
+        }
+
+        return $links;
+    }
+
+    /**
+     * @param Request $request
+     * @param Pagerfanta $pager
+     * @param int $limitPerPage
+     *
+     * @return Pagerfanta
+     */
+    protected function getPagerWithParamRequest(Request $request, Pagerfanta $pager, int $limitPerPage = self::ENTITY_PER_PAGE)
+    {
+        $offset = $this->getOffset($request);
+
+        $currentPage = (int) round(ceil($offset + 1) / $limitPerPage);
+        $pager->setCurrentPage($currentPage + 1);
+        $pager->setMaxPerPage($limitPerPage);
+
+        return $pager;
+    }
 
     /**
      * @param $entity
@@ -45,6 +92,20 @@ class ApiController extends AbstractController
                 HttpCodeEnum::HTTP_UNPROCESSABLE_ENTITY
             );
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return int|mixed
+     */
+    protected function getOffset(Request $request)
+    {
+        if ($request->query->has('offset') && is_numeric($request->query->get('offset'))) {
+            $offset = $request->query->get('offset');
+        } else {
+            $offset = self::DEFAULT_OFFSET;
+        }
+        return $offset;
     }
 
     /**
