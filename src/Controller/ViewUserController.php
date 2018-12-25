@@ -29,11 +29,6 @@ class ViewUserController extends UserController
     const USERS_PER_PAGE  = 20;
 
     /**
-     * @var RouterInterface
-     */
-    private $router;
-
-    /**
      * ViewUserController constructor.
      * @param ValidatorInterface $validator
      * @param EntityManagerInterface $entityManager
@@ -42,7 +37,6 @@ class ViewUserController extends UserController
      */
     public function __construct(ValidatorInterface $validator, EntityManagerInterface $entityManager, SerializerInterface $serializer, RouterInterface $router)
     {
-        $this->router = $router;
         parent::__construct($validator, $entityManager, $serializer, $router);
     }
 
