@@ -6,9 +6,11 @@
 
 namespace App\EventListener;
 
+use App\Enum\HttpCodeEnum;
 use App\Exception\ApiExceptionInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ExceptionListener
 {
@@ -24,6 +26,16 @@ class ExceptionListener
 
             $response->setStatusCode($exception->getCode());
 
+            $event->setResponse($response);
+        }
+
+        if ($exception instanceof NotFoundHttpException) {
+            $response = new Response();
+            $response->setContent(json_encode([
+                'error' => 'Entity not found'
+            ]));
+
+            $response->setStatusCode(HttpCodeEnum::HTTP_NOT_FOUND);
             $event->setResponse($response);
         }
     }
