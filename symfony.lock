@@ -80,6 +80,9 @@
     "giggsey/locale": {
         "version": "1.6"
     },
+    "harmbandstra/swagger-ui-bundle": {
+        "version": "4.0.1"
+    },
     "hautelook/alice-bundle": {
         "version": "2.1",
         "recipe": {
@@ -196,6 +199,12 @@
             "version": "5.2",
             "ref": "fb7e19da7f013d0d422fa9bce16f5c510e27609b"
         }
+    },
+    "swagger-api/swagger-ui": {
+        "version": "v3.20.1"
+    },
+    "symfony/asset": {
+        "version": "v4.2.1"
     },
     "symfony/browser-kit": {
         "version": "v4.2.1"
@@ -345,6 +354,15 @@
             "branch": "master",
             "version": "3.3",
             "ref": "dae9b39fd6717970be7601101ce5aa960bf53d9a"
+        }
+    },
+    "symfony/webpack-encore-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "9aea6366d216792824dc4985fc56617fabdaf82b"
         }
     },
     "symfony/yaml": {
