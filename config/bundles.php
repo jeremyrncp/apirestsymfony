@@ -19,5 +19,5 @@ return [
     Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle::class => ['all' => true],
     Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle::class => ['all' => true],
     Symfony\WebpackEncoreBundle\WebpackEncoreBundle::class => ['all' => true],
-    HarmBandstra\SwaggerUiBundle\HBSwaggerUiBundle::class => ['dev' => true]
+    HarmBandstra\SwaggerUiBundle\HBSwaggerUiBundle::class => ['all' => true]
 ];
