@@ -1,0 +1,7 @@
+App\Entity\Os:
+  android:
+    name: 'Android'
+  iphone:
+    name: 'IOS'
+  windows_phone':
+    name: 'Windows Phone'

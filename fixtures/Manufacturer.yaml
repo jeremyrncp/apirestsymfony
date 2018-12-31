@@ -1,0 +1,9 @@
+App\Entity\Manufacturer:
+  apple:
+    name: 'Apple'
+  huawei:
+    name: 'Huawei'
+  samsung:
+    name: 'Samsung'
+  sony:
+    name: 'Sony'

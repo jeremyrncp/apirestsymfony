@@ -1,0 +1,9 @@
+App\Entity\Connexion:
+  wifi:
+    name: 'Wifi'
+  3g:
+    name: '3G'
+  4g:
+    name: '4G'
+  edge:
+    name: 'Edge'
