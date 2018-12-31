@@ -9,7 +9,12 @@ Encore
     // only needed for CDN's or sub-directory deploy
     //.setManifestKeyPrefix('build/')
 
-    //.addEntry('page1', './assets/js/page1.js')
+    .addEntry('index', './assets/js/index.js')
+
+    .copyFiles({
+        from: './doc',
+        to: '[name].[ext]'
+    })
     //.addEntry('page2', './assets/js/page2.js')
 
     // will require an extra script tag for runtime.js
