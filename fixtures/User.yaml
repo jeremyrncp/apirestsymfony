@@ -4,6 +4,8 @@ App\Entity\User:
     lastname: 'Durand'
     address: 'Route du Parc Montsouris'
     postalCode: '75019'
+    email: '<email()>'
+    phonenumber: '<e164PhoneNumber()>'
     city: 'Paris'
     dateCreate: <(new DateTime("2018-12-07"))>
     businessCustomer: '@business_customer_test'

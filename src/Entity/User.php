@@ -149,9 +149,9 @@ class User
         return $this->lastname;
     }
 
-    public function setLastName(string $lastName): self
+    public function setLastName(string $lastname): self
     {
-        $this->lastName = $lastName;
+        $this->lastname = $lastname;
 
         return $this;
     }

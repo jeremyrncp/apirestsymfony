@@ -5,4 +5,4 @@ App\Entity\BusinessCustomer:
     postalCode: '75017'
     city: 'Paris'
     username: 'mobile-invest'
-    password: '$2y$10$Yg2Td3XPm1E0l9c1pjcZN.qBr0sGjUfCvrDMsse52kahXGw/E/V.a'
+    password: 'test'

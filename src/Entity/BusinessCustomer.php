@@ -164,6 +164,11 @@ class BusinessCustomer implements UserInterface
         // TODO: Implement eraseCredentials() method.
     }
 
+    public function setPassword(string $hashPassword)
+    {
+       $this->password = $hashPassword;
+    }
+
     public function getPassword()
     {
         return $this->password;
