@@ -178,4 +178,9 @@ class BusinessCustomer implements UserInterface
     {
         return $this->username;
     }
+
+    public function setUsername(string $username)
+    {
+        $this->username = $username;
+    }
 }
