@@ -5,10 +5,19 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PhoneRepository")
+ *
+ * @Hateoas\Relation(
+ *      "self",
+ *      href = @Hateoas\Route(
+ *          "view_phone",
+ *          parameters = { "id" = "expr(object.getId())" }
+ *      ),
+ * )
  */
 class Phone
 {
