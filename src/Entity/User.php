@@ -22,7 +22,7 @@ use Hateoas\Configuration\Annotation as Hateoas;
  * @Hateoas\Relation(
  *      "delete",
  *      href = @Hateoas\Route(
- *          "view_user",
+ *          "delete_user",
  *          parameters = { "id" = "expr(object.getId())" }
  *      ),
  * )
