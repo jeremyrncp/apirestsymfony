@@ -30,22 +30,6 @@ class UserController extends ApiController
      */
     protected $validator;
 
-    /**
-     * @var EntityManagerInterface
-     */
-    protected $em;
-
-    /**
-     * @var SerializerInterface
-     */
-    protected $serializer;
-
-
-    /**
-     * @var RouterInterface
-     */
-    protected $router;
-
 
     /**
      * UserController constructor.
@@ -57,9 +41,7 @@ class UserController extends ApiController
     public function __construct(ValidatorInterface $validator, EntityManagerInterface $entityManager, SerializerInterface $serializer, RouterInterface $router)
     {
         $this->validator = $validator;
-        $this->em = $entityManager;
-        $this->serializer = $serializer;
-        $this->router = $router;
+        parent::__construct($entityManager, $serializer, $router);
     }
 
     /**

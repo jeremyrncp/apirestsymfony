@@ -25,9 +25,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ViewUserController extends UserController
 {
-
-    const USERS_PER_PAGE  = 20;
-
     /**
      * ViewUserController constructor.
      * @param ValidatorInterface $validator
@@ -40,20 +37,18 @@ class ViewUserController extends UserController
         parent::__construct($validator, $entityManager, $serializer, $router);
     }
 
-
     /**
-     * @Route("/api/user", methods={"POST", "GET"}, name="view_delete_user")
+     * @Route("/api/user", methods={"POST", "GET"}, name="view_or_delete_user")
      *
      * @param Request $request
      * @param Pagination $pagination
-     *
      * @return Response
-     *
      * @throws \App\Exception\BadRequestException
+     * @throws \App\Exception\InvalidArgumentException
      * @throws \App\Exception\UndefinedHeaderException
      * @throws \App\Exception\UnprocessableEntityException
      * @throws \App\Exception\UnsupportedTypeException
-     **/
+     */
     public function userViewOrDelete(Request $request, Pagination $pagination)
     {
         if ($request->isMethod("POST")) {
@@ -67,32 +62,14 @@ class ViewUserController extends UserController
     /**
      * @param Request $request
      * @param Pagination $pagination
-     *
      * @return Response
-     *
+     * @throws \App\Exception\InvalidArgumentException
      * @throws \App\Exception\UndefinedHeaderException
      * @throws \App\Exception\UnsupportedTypeException
      */
     private function viewUsers(Request $request, Pagination $pagination)
     {
-        $format = $this->validAcceptTypeAndFetchApiFormat($request);
-
-        $queryBuilder = $this->em->createQueryBuilder();
-        $queryBuilder->select('u')->from(User::class, 'u');
-
-        $pager = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
-        $pager = $this->getPagerWithParamRequest($request, $pager, self::USERS_PER_PAGE);
-
-        $response = new Response();
-        $links = $this->addLinksInHeader($pager, $pagination, $this->getOffset($request), $this->router->generate('view_delete_user'));
-
-        $users = iterator_to_array($pager->getCurrentPageResults());
-
-        $response->headers->set('Link', $links);
-        $response->setContent($this->serializer->serialize($users, $format));
-        $response->setStatusCode(HttpCodeEnum::HTTP_OK);
-
-        return $response;
+        return $this->getStandardListRessources($request, $pagination, User::class, 'view_or_delete_user');
     }
 
 

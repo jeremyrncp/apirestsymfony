@@ -22,29 +22,10 @@ use JMS\Serializer\SerializerInterface;
 
 class PhoneController extends ApiController
 {
-
-    const USERS_PER_PAGE  = 20;
-    const DEFAULT_OFFSET = 0;
-
     /**
      * @var ValidatorInterface
      */
     private $validator;
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
-    /**
-     * @var RouterInterface
-     */
-    private $router;
 
     /**
      * UserController constructor.
@@ -55,9 +36,7 @@ class PhoneController extends ApiController
     public function __construct(ValidatorInterface $validator, EntityManagerInterface $entityManager, SerializerInterface $serializer, RouterInterface $router)
     {
         $this->validator = $validator;
-        $this->em = $entityManager;
-        $this->serializer = $serializer;
-        $this->router = $router;
+        parent::__construct($entityManager, $serializer, $router);
     }
 
     /**
@@ -66,29 +45,13 @@ class PhoneController extends ApiController
      * @param Request $request
      * @param Pagination $pagination
      * @return Response
+     * @throws \App\Exception\InvalidArgumentException
      * @throws \App\Exception\UndefinedHeaderException
      * @throws \App\Exception\UnsupportedTypeException
      */
     public function viewPhones(Request $request, Pagination $pagination)
     {
-        $format = $this->validAcceptTypeAndFetchApiFormat($request);
-
-        $queryBuilder = $this->em->createQueryBuilder();
-        $queryBuilder->select('p')->from(Phone::class, 'p');
-
-        $pager = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
-        $pager = $this->getPagerWithParamRequest($request, $pager, self::USERS_PER_PAGE);
-
-        $response = new Response();
-        $links = $this->addLinksInHeader($pager, $pagination, $this->getOffset($request), $this->router->generate('view_phones'));
-
-        $users = iterator_to_array($pager->getCurrentPageResults());
-
-        $response->headers->set('Link', $links);
-        $response->setContent($this->serializer->serialize($users, $format));
-        $response->setStatusCode(HttpCodeEnum::HTTP_OK);
-
-        return $response;
+        return $this->getStandardListRessources($request, $pagination, Phone::class, 'view_phones');
     }
 
     /**
