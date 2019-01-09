@@ -1,7 +1,7 @@
 App\Entity\User:
-  user_(1..20):
-    firstname: 'Martin'
-    lastname: 'Durand'
+  user{1..100}:
+    firstname: <firstName()>
+    lastname: <lastName()>
     address: 'Route du Parc Montsouris'
     postalCode: '75019'
     email: '<email()>'

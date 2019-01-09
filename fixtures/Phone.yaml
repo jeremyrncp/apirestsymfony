@@ -1,5 +1,5 @@
 App\Entity\Phone:
-  huawei_p20_lite_(1..20):
+  phone{1..40}:
     name: 'Huawei P20 Lite'
     price: 250
     memory: 64
