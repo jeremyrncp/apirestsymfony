@@ -9,8 +9,5 @@ This project use :
 - JMS serializer for serialisation
 
 
-This project is deployed in Heroku with this command :
-- heroku create
-- heroku config:set SYMFONY_ENV=prod
-- heroku push <branch-name>:master
-- heroku open 
+This project is deployed in PlatformSH, after add your PlatformSh branch, with this command :
+- git push platform master
