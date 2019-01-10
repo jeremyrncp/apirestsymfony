@@ -18,4 +18,5 @@ class HttpCodeEnum
     public const HTTP_NOT_ACCEPTABLE = 406;
     public const HTTP_EXPECTATION_FAILED = 417;
     public const HTTP_UNPROCESSABLE_ENTITY = 426;
+    public const HTTP_INTERNAL_SERVER_ERROR = 500;
 }

@@ -11,6 +11,7 @@ use App\Enum\HttpCodeEnum;
 use App\Exception\ForbiddenException;
 use App\Exception\NotFoundException;
 use App\Security\UserVoter;
+use Doctrine\DBAL\Exception\ConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,6 +48,7 @@ class UserController extends ApiController
     /**
      * @param Request $request
      * @return Response
+     * @throws ForbiddenException
      * @throws \App\Exception\BadRequestException
      * @throws \App\Exception\UndefinedHeaderException
      * @throws \App\Exception\UnprocessableEntityException
@@ -65,11 +67,14 @@ class UserController extends ApiController
         $user->setBusinessCustomer($this->getUser());
 
         $this->em->persist($user);
-        $this->em->flush();
 
-        $response = $this->getResponseToCreateUser($user, $accept);
-
-        return $response;
+        try {
+            $this->em->flush();
+            $response = $this->getResponseToCreateUser($user, $accept);
+            return $response;
+        } catch (ConstraintViolationException $e) {
+            throw new ForbiddenException('User already registred for this email and/or phone number', HttpCodeEnum::HTTP_FORBIDDEN);
+        }
     }
 
     /**
