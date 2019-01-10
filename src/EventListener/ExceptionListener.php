@@ -38,5 +38,15 @@ class ExceptionListener
             $response->setStatusCode(HttpCodeEnum::HTTP_NOT_FOUND);
             $event->setResponse($response);
         }
+
+        if ($exception instanceof \Error) {
+            $response = new Response();
+            $response->setContent(json_encode([
+                'error' => 'Internal server error'
+            ]));
+
+            $response->setStatusCode(HttpCodeEnum::HTTP_INTERNAL_SERVER_ERROR);
+            $event->setResponse($response);
+        }
     }
 }

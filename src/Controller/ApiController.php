@@ -6,6 +6,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Enum\HttpCodeEnum;
 use App\Exception\BadRequestException;
 use App\Exception\InvalidArgumentException;
@@ -14,6 +15,7 @@ use App\Exception\UnprocessableEntityException;
 use App\Exception\UnsupportedTypeException;
 use App\Utils\Api\Pagination;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use JMS\Serializer\SerializerInterface;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\Pagerfanta;
@@ -114,6 +116,8 @@ class ApiController extends AbstractController
         $queryBuilder = $this->em->createQueryBuilder();
         $queryBuilder->select('p')->from($fullQualifiedClassName, 'p');
 
+        $this->limitQueryWithinRessource($queryBuilder, $fullQualifiedClassName);
+
         $pager = new Pagerfanta(new DoctrineORMAdapter($queryBuilder));
         $pager = $this->getPagerWithParamRequest($request, $pager, self::ENTITY_PER_PAGE);
 
@@ -128,6 +132,20 @@ class ApiController extends AbstractController
 
         return $response;
 
+    }
+
+
+    private function limitQueryWithinRessource(QueryBuilder $queryBuilder, string $fullQualifiedClassName)
+    {
+        switch ($fullQualifiedClassName) {
+            case User::class:
+                return $queryBuilder->where('p.BusinessCustomer = :user')
+                                    ->setParameter('user', $this->getUser());
+                break;
+            default:
+                return $queryBuilder;
+                break;
+        }
     }
 
 
